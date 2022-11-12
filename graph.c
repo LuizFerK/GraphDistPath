@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
+#include "queue.h"
 
 struct graph {
   int v_num;
@@ -90,6 +91,70 @@ bool GRAPHpath(Graph *g, int v, int w) {
   for (int i = 0; i < g->v_num; i++) marked[i] = 0;
 
   return path(g, v, w, marked, 0);
+}
+
+// Breadth First Search
+void GRAPHbfs(Graph *g, int v) {
+  Queue *q = QUEUE();
+  int marked[g->v_num];
+  int parent[g->v_num];
+  int dist[g->v_num];
+  
+  for (int i = 0; i < g->v_num; i++) marked[i] = 0;
+
+  marked[v] = 1;
+  parent[v] = -1;
+  dist[v] = 0;
+
+  QUEUEinsert(q, v);
+  
+  while (!QUEUEempty(q)) {
+    int w = QUEUEremove(q);
+    
+    for (int u = 0; u < g->v_num; u++)
+      if (g->matrix[w][u] != 0) {
+        if (marked[u] == 0) {
+          marked[u] = 1;
+          parent[u] = w;
+          dist[u] = dist[w] + 1;
+          QUEUEinsert(q, u);
+        }
+      }
+  }
+
+  // Prints
+  int count = g->v_num;
+	int max = 0;
+
+  for (int i = 0; i < g->v_num; i++) {
+    if (marked[i] == 0) {
+      printf("%d: infinita, sem caminho ate %d\n", i, v);
+			count --;
+    } else if (i == v) {
+      printf("%d: 0, %d\n", i, i);
+    } else {
+      printf("%d: %d,", i, dist[i]);
+
+      int aux = i;
+
+      while (parent[aux] != -1) {
+        printf(" %d", aux);
+        aux = parent[aux];
+      }
+
+      printf(" %d\n", v);
+    }
+  }
+
+	for (int i= 0; i<g->v_num; i++)
+    if(marked[i] == 1 && dist[i] > max) {
+			max = dist[i];
+		}
+
+	printf("%d\n", count);
+	printf("%d\n", max);
+
+  QUEUEwipe(q);
 }
 
 void GRAPHwipe(Graph *g) {

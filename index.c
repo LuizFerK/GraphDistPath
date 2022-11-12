@@ -4,40 +4,25 @@
 #include "graph.h"
 
 int main() {
-  Graph *graph = GRAPH(4);
-  GRAPHinsert_edge(graph, EDGE(0, 1));
-  GRAPHinsert_edge(graph, EDGE(0, 2));
+  int v, e, x, y, o;
 
-  printf("Number of vertices: %d\n", GRAPHget_v_num(graph));
-  printf("Number of edges: %d\n\n", GRAPHget_e_num(graph));
-  GRAPHprint(graph);
+  scanf("%d %d", &v, &e);
+  
+  Graph *g = GRAPH(v);
 
-  GRAPHremove_edge(graph, EDGE(3, 2));
+  for (int i = 0; i < e; i++) {
+    scanf("%d %d", &x, &y);
 
-  printf("Number of vertices: %d\n", GRAPHget_v_num(graph));
-  printf("Number of edges: %d\n\n", GRAPHget_e_num(graph));
-  GRAPHprint(graph);
-
-  if (GRAPHpath(graph, 0, 2)) {
-    printf("There is a path between 0 and 2\n");
-  } else {
-    printf("There is no path between 0 and 2\n");
-  }
-  printf("\n");
-
-  GRAPHremove_edge(graph, EDGE(0, 2));
-
-  printf("Number of vertices: %d\n", GRAPHget_v_num(graph));
-  printf("Number of edges: %d\n\n", GRAPHget_e_num(graph));
-  GRAPHprint(graph);
-
-  if (GRAPHpath(graph, 0, 3)) {
-    printf("There is a path between 0 and 3\n");
-  } else {
-    printf("There is no path between 0 and 3\n");
+    GRAPHinsert_edge(g, EDGE(x, y));
   }
 
-  GRAPHwipe(graph);
+  scanf("%d", &o);
 
-  return 0;
+  for (int i = 0; i < o; i++) {
+    scanf("%d", &x);
+
+    GRAPHbfs(g, x);
+  }
+
+  GRAPHwipe(g);
 }

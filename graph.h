@@ -20,6 +20,8 @@ void GRAPHprint(Graph *g);
 
 bool GRAPHpath(Graph *g, int v, int w);
 
+void GRAPHbfs(Graph *g, int v);
+
 void GRAPHwipe(Graph *g);
 
 #endif /* GRAPH_H */
